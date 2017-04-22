@@ -69,8 +69,15 @@ class GoodreadsBook:
     @property
     def popular_shelves(self):
         """Popular shelves for the book"""
-        return [shelf.GoodreadsShelf(shelf_dict)
-                for shelf_dict in self._book_dict['popular_shelves']['shelf']]
+        try:
+            return [shelf['@name']
+                    for shelf in self._book_dict['popular_shelves']['shelf']]
+        # In some cases it appears the Goodreads API returns a response
+        # where 'shelf' object is not a list but rather a single shelf.
+        # In this case the Exception "TypeError: string indices must be
+        # integers" is raised.
+        except TypeError:
+            return [self._book_dict['popular_shelves']['shelf']['@name']]
 
     @property
     def work(self):
