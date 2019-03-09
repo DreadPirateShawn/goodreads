@@ -78,6 +78,11 @@ class GoodreadsBook:
         # integers" is raised.
         except TypeError:
             return [self._book_dict['popular_shelves']['shelf']['@name']]
+        # In some cases it appears the Goodreads API returns a response
+        # where this key is omitted.
+        # In this case the Exception "KeyError: 'popular_shelves'" is raised.
+        except KeyError:
+            return None
 
     @property
     def work(self):
