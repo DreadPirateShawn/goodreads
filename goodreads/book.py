@@ -77,7 +77,13 @@ class GoodreadsBook:
     @property
     def series_works(self):
         """Return series of the book"""
-        return self._book_dict['series_works']
+        try:
+            return self._book_dict['series_works']
+        # In some cases it appears the Goodreads API returns a response
+        # where this key is omitted.
+        # In this case the Exception "KeyError: 'series_works'" is raised.
+        except KeyError:
+            return None
 
     @property
     def publication_date(self):
