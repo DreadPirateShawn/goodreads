@@ -14,7 +14,10 @@ class GoodreadsBook:
     @property
     def gid(self):
         """Goodreads id of the book"""
-        return self._book_dict['id']
+        gid = self._book_dict['id']
+        if isinstance(gid, dict) and '#text' in gid:
+            return gid.get('#text')
+        return gid
 
     @property
     def title(self):
