@@ -1,9 +1,11 @@
 """Class implementation for Goodreads reviews"""
+from .book import GoodreadsBook
 
 
 class GoodreadsReview():
-    def __init__(self, review_dict):
+    def __init__(self, review_dict, client):
         self._review_dict = review_dict
+        self.client = client
 
     def __repr__(self):
         return "review [%s]" % self.gid
@@ -16,7 +18,7 @@ class GoodreadsReview():
     @property
     def book(self):
         """Book that the review belongs to"""
-        return self._review_dict['book']
+        return GoodreadsBook(self._review_dict['book'], self.client)
 
     @property
     def rating(self):

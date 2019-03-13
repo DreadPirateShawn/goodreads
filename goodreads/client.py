@@ -161,32 +161,32 @@ class GoodreadsClient():
     def recent_reviews(self):
         """Get the recent reviews from all members"""
         resp = self.request("/review/recent_reviews.xml", {})
-        return [GoodreadsReview(r) for r in resp['reviews']['review']]
+        return [GoodreadsReview(r, self) for r in resp['reviews']['review']]
 
     def review(self, review_id):
         """Get a review"""
         resp = self.request("/review/show.xml", {'id': review_id})
-        return GoodreadsReview(resp['review'])
+        return GoodreadsReview(resp['review'], self)
 
     def _shelf(self, user_id, shelf_id, page=1, show_progress=False):
+        # Note: The param v=2 causes the user's ratings to be included in the response.
         resp = self.request('/review/list/%s.xml' % user_id,
-                            {'shelf': shelf_id, 'page': page})
-        data = resp.get('books')
+                            {'shelf': shelf_id,
+                             'page': page,
+                             'v': 2})
+        data = resp.get('reviews')
         if show_progress:
-            print("Range {start}-{end} / Page {current} of {pages}".format(
+            print("Range {start}-{end} of {total}".format(
                   total=data['@total'],
                   start=data['@start'],
-                  end=data['@end'],
-                  current=data['@currentpage'],
-                  pages=data['@numpages']))
-        books = []
-        raw_books = data['book']
-        for raw_book in raw_books:
-            book = GoodreadsBook(raw_book, self)
-            books.append(book)
-        if int(data['@currentpage']) < int(data['@numpages']):
-            books.extend(self._shelf(user_id, shelf_id, page=page+1, show_progress=show_progress))
-        return books
+                  end=data['@end']))
+        reviews = []
+        for raw_review in data.get('review'):
+            review = GoodreadsReview(raw_review, self)
+            reviews.append(review)
+        if int(data['@end']) < int(data['@total']):
+            reviews.extend(self._shelf(user_id, shelf_id, page=page+1, show_progress=show_progress))
+        return reviews
 
     def shelf(self, user_id, shelf_id, show_progress=False):
         return self._shelf(user_id, shelf_id, show_progress=show_progress)
