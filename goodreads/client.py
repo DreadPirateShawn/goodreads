@@ -1,4 +1,3 @@
-import webbrowser
 import collections
 
 
@@ -42,7 +41,7 @@ class GoodreadsClient():
             self.session.oauth_resume()
         else:
             url = self.session.oauth_init()
-            webbrowser.open(url)
+            print("Load this url in a browser to authorize: %s" % url)
             while input("Have you authorized me? (y/n)") != 'y':
                 pass
             self.session.oauth_finalize()

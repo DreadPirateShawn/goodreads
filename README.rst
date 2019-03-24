@@ -68,6 +68,24 @@ application, you can direct the user to that particular URL, ask him/her
 to authorize your app and save the returning ``access_token`` and
 ``access_token_secret`` in your database.
 
+Getting Started: Helper
+-----------------------
+
+For a clean baseline reference, a Dockerfile is provided.
+
+::
+
+    docker build . -f Dockerfile -t goodreads-api
+
+This can be used to demo OAuth usage. Given your developer key and secret,
+it will provide a URL to load in a browser to authorize your app,
+confirms that the resulting oauth values work, prints them for reference,
+and shows how to get them in the code.
+
+::
+
+    docker run -it goodreads-api python3 -m goodreads.oauth_register --key <developer_key> --secret <developer_secret>
+
 Examples
 --------
 
