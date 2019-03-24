@@ -193,7 +193,8 @@ contents like:
 
 Then run via:
 
-:
+::
+
     docker build . -f Dockerfile -t goodreads-tests --target testing
     docker run -it goodreads-tests nosetests --verbose
 
