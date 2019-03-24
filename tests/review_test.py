@@ -1,5 +1,4 @@
 from nose.tools import eq_, ok_
-
 from goodreads import apikey
 from goodreads.client import GoodreadsClient
 from goodreads.review import GoodreadsReview
@@ -19,4 +18,3 @@ class TestReview():
     def test_review(self):
         review = self.client.review('2')
         eq_(review.gid, '2')
-        pass

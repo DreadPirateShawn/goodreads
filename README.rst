@@ -75,7 +75,7 @@ For a clean baseline reference, a Dockerfile is provided.
 
 ::
 
-    docker build . -f Dockerfile -t goodreads-api
+    docker build . -f Dockerfile -t goodreads-api --target runtime
 
 This can be used to demo OAuth usage. Given your developer key and secret,
 it will provide a URL to load in a browser to authorize your app,
@@ -177,6 +177,25 @@ Goodreads API also allows to list events happening in an area.
     u'120 N. Front St.'
     >>> event.city
     u'Wrightsville'
+
+Tests
+-----
+
+First you'll need to create a file `goodreads/apikey.py` with (filled out)
+contents like:
+
+.. code:: python
+
+    key = "..."
+    secret = "..."
+    oauth_access_token = "..."
+    oauth_access_token_secret = "..."
+
+Then run via:
+
+:
+    docker build . -f Dockerfile -t goodreads-tests --target testing
+    docker run -it goodreads-tests nosetests --verbose
 
 Documentation
 -------------

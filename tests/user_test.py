@@ -1,3 +1,4 @@
+from nose.tools import eq_, ok_
 from goodreads import apikey
 from goodreads.client import GoodreadsClient
 from goodreads.user import GoodreadsUser
@@ -5,7 +6,6 @@ from goodreads.group import GoodreadsGroup
 from goodreads.owned_book import GoodreadsOwnedBook
 from goodreads.review import GoodreadsReview
 from goodreads.shelf import GoodreadsShelf
-from nose.tools import eq_, ok_
 
 
 class TestUser():
@@ -31,12 +31,10 @@ class TestUser():
             u'https://www.goodreads.com/user/show/1-otis-chandler')
 
     def test_image_url(self):
-        eq_(self.user.image_url,
-            u'https://d2arxad8u2l0g7.cloudfront.net/users/1189644957p3/1.jpg')
+        assert self.user.image_url.endswith(u'/users/1506617226p3/1.jpg')
 
     def test_small_image_url(self):
-        eq_(self.user.small_image_url,
-            u'https://d2arxad8u2l0g7.cloudfront.net/users/1189644957p2/1.jpg')
+        assert self.user.small_image_url.endswith(u'/users/1506617226p2/1.jpg')
 
     def test_user_in_groups(self):
         groups = self.user.list_groups()

@@ -1,5 +1,4 @@
 from nose.tools import eq_, ok_
-
 from goodreads import apikey
 from goodreads.client import GoodreadsClient
 from goodreads.comment import GoodreadsComment

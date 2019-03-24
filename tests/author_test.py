@@ -1,3 +1,4 @@
+from nose.tools import eq_, ok_
 from goodreads import apikey
 from goodreads.client import GoodreadsClient
 from goodreads.author import GoodreadsAuthor
@@ -14,11 +15,11 @@ class TestAuthor():
 
     def test_get_author(self):
         assert isinstance(self.author, GoodreadsAuthor)
-        assert self.author.gid == '64941'
-        assert repr(self.author) == 'Donald Ervin Knuth'
+        eq_(self.author.gid, '64941')
+        eq_(repr(self.author), 'Donald Ervin Knuth')
 
     def test_author_name(self):
-        assert self.author.name == 'Donald Ervin Knuth'
+        eq_(self.author.name, 'Donald Ervin Knuth')
 
     def test_author_about(self):
         self.author.about.startswith('Donald Ervin Knuth, born January 10th 1938,')
@@ -26,7 +27,7 @@ class TestAuthor():
     def test_author_books(self):
         books = self.author.books
         assert all(isinstance(book, GoodreadsBook) for book in books)
-        assert (books[-1].title == 'Literate Programming')
+        eq_(books[-1].title, 'Literate Programming')
 
     def test_born_at(self):
         self.author.born_at == '1938/01/10'
