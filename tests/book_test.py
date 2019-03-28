@@ -1,102 +1,97 @@
 import collections
-
-from goodreads import apikey
-from goodreads.client import GoodreadsClient
+from tests.base import TestBase
 from goodreads.book import GoodreadsBook
 from goodreads.author import GoodreadsAuthor
-from nose.tools import eq_, ok_
 from goodreads.shelf import GoodreadsShelf
 
 
-class TestBook():
-    @classmethod
-    def setup_class(cls):
-        client = GoodreadsClient(apikey.key, apikey.secret)
-        client.authenticate(apikey.oauth_access_token,
-                            apikey.oauth_access_token_secret)
-        cls.book = client.book('11870085')
+class TestBook(TestBase):
+
+    def setUp(self):
+        self.book = self.client.book('11870085')
 
     def test_get_book(self):
-        assert isinstance(self.book, GoodreadsBook)
-        eq_(self.book.gid, '11870085')
-        eq_(repr(self.book), 'The Fault in Our Stars')
+        self.assertIsInstance(self.book, GoodreadsBook)
+        self.assertEqual(self.book.gid, '11870085')
+        self.assertEqual(repr(self.book), 'The Fault in Our Stars')
 
     def test_title(self):
-        eq_(self.book.title, 'The Fault in Our Stars')
+        self.assertEqual(self.book.title, 'The Fault in Our Stars')
 
     def test_authors(self):
-        eq_(len(self.book.authors), 1)
-        assert isinstance(self.book.authors[0], GoodreadsAuthor)
+        self.assertEqual(len(self.book.authors), 1)
+        self.assertIsInstance(self.book.authors[0], GoodreadsAuthor)
 
     def test_description(self):
-        assert self.book.description.startswith(
-            "Despite the tumor-shrinking medical miracle")
+        self.assertStartsWith(self.book.description, "Despite the tumor-shrinking medical miracle")
 
     def test_average_rating(self):
         rating = float(self.book.average_rating)
-        assert rating >= 1.0
-        assert rating <= 5.0
+        self.assertGreaterEqual(rating, 1.0)
+        self.assertLessEqual(rating, 5.0)
 
     def test_rating_dist(self):
-        assert self.book.rating_dist.startswith('5:')
+        self.assertStartsWith(self.book.rating_dist, '5:')
 
     def test_ratings_count(self):
-        assert self.book.ratings_count.isdigit()
+        self.assertIsDigit(self.book.ratings_count)
 
     def test_text_reviews_count(self):
-        assert self.book.text_reviews_count.isdigit()
+        self.assertIsDigit(self.book.text_reviews_count)
 
     def test_num_pages(self):
-        assert self.book.num_pages.isdigit()
+        self.assertIsDigit(self.book.num_pages)
 
     def test_popular_shelves(self):
-        assert all(isinstance(shelf, GoodreadsShelf)
-                   for shelf in self.book.popular_shelves)
+        self.assertGreater(len(self.book.popular_shelves), 0)
+        for shelf in self.book.popular_shelves:
+            self.assertIsInstance(shelf, GoodreadsShelf)
 
     def test_work(self):
-        eq_(type(self.book.work), collections.OrderedDict)
-        eq_(self.book.work['id']['#text'], '16827462')
+        self.assertEqual(type(self.book.work), collections.OrderedDict)
+        self.assertEqual(self.book.work['id']['#text'], '16827462')
 
     def test_series_works(self):
-        assert self.book.series_works is None
+        self.assertIsNone(self.book.series_works)
 
     def test_publication_date(self):
-        eq_(self.book.publication_date, ('1', '10', '2012'))
+        self.assertEqual(self.book.publication_date, ('1', '10', '2012'))
 
     def test_publisher(self):
-        eq_(self.book.publisher, 'Dutton Books')
+        self.assertEqual(self.book.publisher, 'Dutton Books')
 
     def test_language_code(self):
-        eq_(self.book.language_code, 'eng')
+        self.assertEqual(self.book.language_code, 'eng')
 
     def test_edition_information(self):
-        assert self.book.edition_information is None
+        self.assertIsNone(self.book.edition_information)
 
     def test_image_url(self):
-        assert self.book.image_url.endswith('/books/1360206420m/11870085.jpg')
+        self.assertEquals(self.book.image_url, 'https://images.gr-assets.com/books/1360206420m/11870085.jpg')
 
     def test_small_image_url(self):
-        assert self.book.small_image_url.endswith('/books/1360206420s/11870085.jpg')
+        self.assertEquals(self.book.small_image_url, 'https://images.gr-assets.com/books/1360206420s/11870085.jpg')
 
     def test_is_ebook(self):
-        eq_(self.book.is_ebook, 'false')
+        self.assertEqual(self.book.is_ebook, 'false')
 
     def test_format(self):
-        eq_(self.book.format, 'Hardcover')
+        self.assertEqual(self.book.format, 'Hardcover')
 
     def test_isbn(self):
-        eq_(self.book.isbn, '0525478817')
+        self.assertEqual(self.book.isbn, '0525478817')
 
     def test_isbn13(self):
-        eq_(self.book.isbn13, '9780525478812')
+        self.assertEqual(self.book.isbn13, '9780525478812')
 
     def test_link(self):
-        eq_(self.book.link, 'https://www.goodreads.com/book/show/11870085-the-fault-in-our-stars')
+        self.assertEqual(self.book.link, 'https://www.goodreads.com/book/show/11870085-the-fault-in-our-stars')
 
     def test_reviews_widget(self):
-        assert self.book.reviews_widget.startswith('<style>')
-        assert self.book.reviews_widget.endswith('</div>')
+        self.assertStartsWith(self.book.reviews_widget, '<style>')
+        self.assertEndsWith(self.book.reviews_widget, '</div>')
 
     def test_similar_books(self):
-        assert all(isinstance(b, GoodreadsBook)
-                   for b in self.book.similar_books)
+        self.assertGreater(len(self.book.similar_books), 0)
+        for b in self.book.similar_books:
+            self.assertIsInstance(b, GoodreadsBook)
