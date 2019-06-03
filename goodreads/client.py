@@ -173,7 +173,8 @@ class GoodreadsClient():
         resp = self.request('/review/list/%s.xml' % user_id,
                             {'shelf': shelf_id,
                              'page': page,
-                             'v': 2})
+                             'v': 2},
+                            force_list={'review'})
         data = resp.get('reviews')
         if show_progress:
             print("Range {start}-{end} of {total}".format(
