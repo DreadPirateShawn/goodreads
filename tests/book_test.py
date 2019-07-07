@@ -44,8 +44,9 @@ class TestBook(TestBase):
 
     def test_popular_shelves(self):
         self.assertGreater(len(self.book.popular_shelves), 0)
+        self.assertTrue('to-read' in self.book.popular_shelves)
         for shelf in self.book.popular_shelves:
-            self.assertIsInstance(shelf, GoodreadsShelf)
+            self.assertIsInstance(shelf, str)
 
     def test_work(self):
         self.assertEqual(type(self.book.work), collections.OrderedDict)

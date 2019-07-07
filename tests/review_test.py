@@ -1,4 +1,5 @@
 from tests.base import TestBase
+from goodreads.book import GoodreadsBook
 from goodreads.review import GoodreadsReview
 
 
@@ -46,9 +47,10 @@ class TestReview(TestBase):
             'published',
             'work'
         ]
-        self.assertCountEqual(self.review.book.keys(), keys)
-        self.assertEqual(self.review.book['isbn'], '0345453743')
-        self.assertEqual(self.review.book['title'], "The Ultimate Hitchhiker's Guide to the Galaxy")
+        self.assertIsInstance(self.review.book, GoodreadsBook)
+        self.assertCountEqual(self.review.book._book_dict.keys(), keys)
+        self.assertEqual(self.review.book.isbn, '0345453743')
+        self.assertEqual(self.review.book.title, "The Ultimate Hitchhiker's Guide to the Galaxy (Hitchhiker's Guide to the Galaxy, #1-5)")
 
     def test_rating(self):
         self.assertEqual(self.review.rating, '4')
