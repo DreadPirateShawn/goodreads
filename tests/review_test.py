@@ -1,3 +1,4 @@
+from datetime import datetime
 from tests.base import TestBase
 from goodreads.book import GoodreadsBook
 from goodreads.review import GoodreadsReview
@@ -79,6 +80,9 @@ class TestReview(TestBase):
 
     def test_read_at(self):
         self.assertEqual(self.review.read_at, 'Mon Jul 07 00:00:00 -0700 2008')
+
+    def test_date_added(self):
+        self.assertEqual(datetime.strftime(self.review.date_added, "%Y/%m/%d %H:%M:%S"), "2007/08/30 11:11:01")
 
     def test_body(self):
         self.assertStartsWith(self.review.body, 'Just as funny as advertised,')

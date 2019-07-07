@@ -1,5 +1,6 @@
 """Class implementation for Goodreads reviews"""
 from .book import GoodreadsBook
+from datetime import datetime
 
 
 class GoodreadsReview():
@@ -57,6 +58,16 @@ class GoodreadsReview():
     def read_at(self):
         """Book read at"""
         return self._review_dict['read_at']
+
+    @property
+    def date_added(self):
+        """Book added to shelf at"""
+        val = self._review_dict['date_added']
+        try:
+            return datetime.strptime(val, "%a %b %d %H:%M:%S %z %Y")
+        except ValueError:
+            print("Can't parse date_added value: %s" % val)
+            return None
 
     @property
     def body(self):
