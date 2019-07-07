@@ -45,4 +45,4 @@ class TestAuthor(TestBase):
         self.assertEquals(self.author.small_image_url, 'https://images.gr-assets.com/authors/1236845611p2/64941.jpg')
 
     def test_works_count(self):
-        self.assertEqual(self.author.works_count, '73')
+        self.assertEqual(self.author.works_count, '72')

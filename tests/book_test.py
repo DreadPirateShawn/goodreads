@@ -8,11 +8,11 @@ from goodreads.shelf import GoodreadsShelf
 class TestBook(TestBase):
 
     def setUp(self):
-        self.book = self.client.book('11870085')
+        self.book = self.client.book('17118893')
 
     def test_get_book(self):
         self.assertIsInstance(self.book, GoodreadsBook)
-        self.assertEqual(self.book.gid, '11870085')
+        self.assertEqual(self.book.gid, '17118893')
         self.assertEqual(repr(self.book), 'The Fault in Our Stars')
 
     def test_title(self):
@@ -55,10 +55,10 @@ class TestBook(TestBase):
         self.assertIsNone(self.book.series_works)
 
     def test_publication_date(self):
-        self.assertEqual(self.book.publication_date, ('1', '10', '2012'))
+        self.assertEqual(self.book.publication_date, ('1', '3', '2013'))
 
     def test_publisher(self):
-        self.assertEqual(self.book.publisher, 'Dutton Books')
+        self.assertEqual(self.book.publisher, 'Penguin Books')
 
     def test_language_code(self):
         self.assertEqual(self.book.language_code, 'eng')
@@ -67,25 +67,25 @@ class TestBook(TestBase):
         self.assertIsNone(self.book.edition_information)
 
     def test_image_url(self):
-        self.assertEquals(self.book.image_url, 'https://images.gr-assets.com/books/1360206420m/11870085.jpg')
+        self.assertEquals(self.book.image_url, 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1356100942i/17118893._SX98_.jpg')
 
     def test_small_image_url(self):
-        self.assertEquals(self.book.small_image_url, 'https://images.gr-assets.com/books/1360206420s/11870085.jpg')
+        self.assertEquals(self.book.small_image_url, 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1356100942i/17118893._SY75_.jpg')
 
     def test_is_ebook(self):
         self.assertEqual(self.book.is_ebook, 'false')
 
     def test_format(self):
-        self.assertEqual(self.book.format, 'Hardcover')
+        self.assertEqual(self.book.format, 'Paperback')
 
     def test_isbn(self):
-        self.assertEqual(self.book.isbn, '0525478817')
+        self.assertEqual(self.book.isbn, '0141345659')
 
     def test_isbn13(self):
-        self.assertEqual(self.book.isbn13, '9780525478812')
+        self.assertEqual(self.book.isbn13, '9780141345659')
 
     def test_link(self):
-        self.assertEqual(self.book.link, 'https://www.goodreads.com/book/show/11870085-the-fault-in-our-stars')
+        self.assertEqual(self.book.link, 'https://www.goodreads.com/book/show/17118893-the-fault-in-our-stars')
 
     def test_reviews_widget(self):
         self.assertStartsWith(self.book.reviews_widget, '<style>')
